@@ -179,7 +179,14 @@ public class PlayerActivityFragment extends DialogFragment {
                 mListSize = mArrayTracks.size();
             }
 
-            mTwoPane =  bundle.getBoolean(Constants.TWO_PANE);
+            try{
+                mTwoPane =  bundle.getBoolean(Constants.TWO_PANE);
+                getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            }
+            catch (Exception e){
+
+            }
 
 
             mListPosition= bundle.getInt(LIST_POSITION);
@@ -227,9 +234,8 @@ public class PlayerActivityFragment extends DialogFragment {
             startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
             getActivity().startService(startIntent);
         }
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        super.onViewCreated(rootView, savedInstanceState);
 
+        super.onViewCreated(rootView, savedInstanceState);
 
         return rootView;
     }
