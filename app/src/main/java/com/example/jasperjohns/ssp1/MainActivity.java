@@ -93,6 +93,7 @@ public class MainActivity extends ActionBarActivity  implements  MainActivityFra
 
         if (mTwoPane){
 
+            extras.putBoolean(Constants.TWO_PANE, true);
             PlayerActivityFragment player = new PlayerActivityFragment();
             player.setArguments(extras);
 
@@ -105,6 +106,7 @@ public class MainActivity extends ActionBarActivity  implements  MainActivityFra
 */
         }
         else {
+            extras.putBoolean(Constants.TWO_PANE, false);
             Intent player = new Intent(this, PlayerActivity.class);
             player.putExtras(extras);
             startActivity(player);

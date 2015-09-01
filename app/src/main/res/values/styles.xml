@@ -17,6 +17,9 @@
         -->
     </style>
 
+    <style name="DialogFragmentStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowSoftInputMode">stateHidden|adjustResize</item>
+    </style>
 
     <!-- ActionBar styles -->
     <style name="themeActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">

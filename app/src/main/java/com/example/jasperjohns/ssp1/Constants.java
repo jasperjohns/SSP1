@@ -37,6 +37,7 @@ public class Constants {
     public static String MEDIAPLAYER_PLAYING ="mediaplayer_playing";
     public static String MEDIAPLAYER_CURRENT_DURATION ="mediaplayer_currentduration";
     public static String MEDIAPLAYER_SEEK_POSITION ="mediaplayer_seekposition";
+    public static String TWO_PANE ="twopane";
 
 
 }

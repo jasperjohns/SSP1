@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -54,7 +55,7 @@ public class PlayerActivityFragment extends DialogFragment {
     private int mListPosition;
     private int mListSize =0 ;
     private boolean mIsPlaying = false;
-
+    private boolean mTwoPane = false;
     private int mCurrentDuration;
     private int mTotalDuration;
 
@@ -146,7 +147,9 @@ public class PlayerActivityFragment extends DialogFragment {
                 mTotalDuration = savedInstanceState.getInt(Constants.TRACK_TOTAL_DURATION);
 
                 mIsPlaying = savedInstanceState.getBoolean(Constants.MEDIAPLAYER_PLAYING);
+                mTwoPane = savedInstanceState.getBoolean(Constants.TWO_PANE);
         }
+
         else {
 
 //        Bundle bundle = getActivity().getIntent().getExtras();
@@ -175,6 +178,9 @@ public class PlayerActivityFragment extends DialogFragment {
                 //Assign the size of the list
                 mListSize = mArrayTracks.size();
             }
+
+            mTwoPane =  bundle.getBoolean(Constants.TWO_PANE);
+
 
             mListPosition= bundle.getInt(LIST_POSITION);
 
@@ -221,7 +227,8 @@ public class PlayerActivityFragment extends DialogFragment {
             startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
             getActivity().startService(startIntent);
         }
-
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        super.onViewCreated(rootView, savedInstanceState);
 
 
         return rootView;
@@ -237,8 +244,15 @@ public class PlayerActivityFragment extends DialogFragment {
         // to modify any dialog characteristics. For example, the dialog includes a
         // title by default, but your custom layout might not need it. So here you can
         // remove the dialog title, but you must call the superclass to get the Dialog.
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreateDialog(savedInstanceState);
+        Dialog dialog;
+        if (mTwoPane) {
+            dialog = new Dialog(getActivity(), R.style.DialogFragmentStyle);
+        }
+        else {
+            dialog = new Dialog(getActivity(), R.style.DialogFragmentStyle);
+        }
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return dialog;
     }
 
@@ -448,6 +462,7 @@ public class PlayerActivityFragment extends DialogFragment {
         savedInstanceState.putInt(Constants.TRACK_TOTAL_DURATION, mTotalDuration);
 
         savedInstanceState.putBoolean(Constants.MEDIAPLAYER_PLAYING, mIsPlaying);
+        savedInstanceState.putBoolean(Constants.TWO_PANE, mTwoPane);
 
         super.onSaveInstanceState(savedInstanceState);
 
@@ -471,6 +486,7 @@ public class PlayerActivityFragment extends DialogFragment {
             mTotalDuration = savedInstanceState.getInt(Constants.TRACK_TOTAL_DURATION);
 
             mIsPlaying = savedInstanceState.getBoolean(Constants.MEDIAPLAYER_PLAYING);
+            mTwoPane = savedInstanceState.getBoolean(Constants.TWO_PANE);
 
             Log.i (LOG_TAG," onViewStateRestored - mCurrentDuration:"  + Integer.toString(mCurrentDuration));
 
